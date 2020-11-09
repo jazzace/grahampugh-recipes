@@ -5,13 +5,11 @@
 	<key>Description</key>
 	<string>Downloads the latest release of Unison.</string>
 	<key>Identifier</key>
-	<string>com.github.grahampugh.recipes.download.unison</string>
+	<string>com.github.grahampugh.recipes.download.unison-temp</string>
 	<key>Input</key>
 	<dict>
 		<key>NAME</key>
 		<string>Unison</string>
-		<key>STOPPROCESSINGIF_PREDICATE</key>
-		<string>download_changed == FALSE</string>
 	</dict>
 	<key>MinimumVersion</key>
 	<string>1.0.0</string>
@@ -20,30 +18,15 @@
 		<dict>
 			<key>Arguments</key>
 			<dict>
-				<key>asset_regex</key>
-				<string>.*macos.*.app</string>
-				<key>github_repo</key>
-				<string>bcpierce00/unison</string>
+				<key>url</key>
+				<string>https://github.com/bcpierce00/unison/files/5511707/Unison-09393f26.ocaml-4.11.1.macos-10.15.app.zip</string>
 			</dict>
-			<key>Processor</key>
-			<string>GitHubReleasesInfoProvider</string>
-		</dict>
-		<dict>
 			<key>Processor</key>
 			<string>URLDownloader</string>
 		</dict>
 		<dict>
 			<key>Processor</key>
 			<string>EndOfCheckPhase</string>
-		</dict>
-		<dict>
-			<key>Arguments</key>
-			<dict>
-				<key>predicate</key>
-				<string>%STOPPROCESSINGIF_PREDICATE%</string>
-			</dict>
-			<key>Processor</key>
-			<string>StopProcessingIf</string>
 		</dict>
 	</array>
 </dict>

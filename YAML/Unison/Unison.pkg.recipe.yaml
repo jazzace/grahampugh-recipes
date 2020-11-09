@@ -1,32 +1,35 @@
 Description: Downloads the latest Unison release and copies it to the recipe cache root.
 Identifier: com.github.grahampugh.recipes.pkg.unison
+MinimumVersion: 0.2.9
+ParentRecipe: "com.github.grahampugh.recipes.download.unison-temp"
+
 Input:
   NAME: Unison
-MinimumVersion: 0.2.9
-ParentRecipe: 'com.github.grahampugh.recipes.download.unison'
+
 Process:
-- Arguments:
-    archive_path: '%pathname%'
-    destination_path: '%RECIPE_CACHE_DIR%/Applications'
-    purge_destination: true
-  Processor: Unarchiver
-- Arguments:
-    pkgdirs:
-      Applications: '0775'
-    pkgroot: '%RECIPE_CACHE_DIR%/pkgroot'
-  Processor: PkgRootCreator
-- Processor: Copier
-  Arguments:
-    source_path: '%RECIPE_CACHE_DIR%/Applications/Unison.app'
-    destination_path: '%RECIPE_CACHE_DIR%/pkgroot/Applications/Unison.app'
-    overwrite: True
-- Arguments:
-    force_pkg_build: True
-    pkg_request:
-      chown: []
-      id: edu.upenn.cis.Unison.pkg
-      pkgname: '%NAME%-%version%'
-      pkgroot: '%RECIPE_CACHE_DIR%/pkgroot'
-      pkgtype: flat
-      version: '%version%'
-  Processor: PkgCreator
+  - Arguments:
+      archive_path: "%pathname%"
+      destination_path: "%RECIPE_CACHE_DIR%/archive"
+      purge_destination: true
+    Processor: Unarchiver
+
+  - Arguments:
+      pattern: "%RECIPE_CACHE_DIR%/archive/*.tar.gz"
+    Processor: FileFinder
+
+  - Arguments:
+      archive_path: "%found_filename%"
+      destination_path: "%RECIPE_CACHE_DIR%/Applications"
+      purge_destination: true
+    Processor: Unarchiver
+
+  - Arguments:
+      pkgdirs:
+        Applications: "0775"
+      pkgroot: "%RECIPE_CACHE_DIR%/pkgroot"
+    Processor: PkgRootCreator
+
+  - Processor: AppPkgCreator
+    Arguments:
+      app_path: "%RECIPE_CACHE_DIR%/Applications/Unison.app"
+      force_pkg_build: True

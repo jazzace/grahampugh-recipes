@@ -14,7 +14,7 @@
 	<key>MinimumVersion</key>
 	<string>0.2.9</string>
 	<key>ParentRecipe</key>
-	<string>com.github.grahampugh.recipes.download.unison</string>
+	<string>com.github.grahampugh.recipes.download.unison-temp</string>
 	<key>Process</key>
 	<array>
 		<dict>
@@ -22,6 +22,28 @@
 			<dict>
 				<key>archive_path</key>
 				<string>%pathname%</string>
+				<key>destination_path</key>
+				<string>%RECIPE_CACHE_DIR%/archive</string>
+				<key>purge_destination</key>
+				<true/>
+			</dict>
+			<key>Processor</key>
+			<string>Unarchiver</string>
+		</dict>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>pattern</key>
+				<string>%RECIPE_CACHE_DIR%/archive/*.tar.gz</string>
+			</dict>
+			<key>Processor</key>
+			<string>FileFinder</string>
+		</dict>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>archive_path</key>
+				<string>%found_filename%</string>
 				<key>destination_path</key>
 				<string>%RECIPE_CACHE_DIR%/Applications</string>
 				<key>purge_destination</key>
@@ -47,40 +69,13 @@
 		<dict>
 			<key>Arguments</key>
 			<dict>
-				<key>destination_path</key>
-				<string>%RECIPE_CACHE_DIR%/pkgroot/Applications/Unison.app</string>
-				<key>overwrite</key>
-				<true/>
-				<key>source_path</key>
+				<key>app_path</key>
 				<string>%RECIPE_CACHE_DIR%/Applications/Unison.app</string>
-			</dict>
-			<key>Processor</key>
-			<string>Copier</string>
-		</dict>
-		<dict>
-			<key>Arguments</key>
-			<dict>
 				<key>force_pkg_build</key>
 				<true/>
-				<key>pkg_request</key>
-				<dict>
-					<key>chown</key>
-					<array>
-					</array>
-					<key>id</key>
-					<string>edu.upenn.cis.Unison.pkg</string>
-					<key>pkgname</key>
-					<string>%NAME%-%version%</string>
-					<key>pkgroot</key>
-					<string>%RECIPE_CACHE_DIR%/pkgroot</string>
-					<key>pkgtype</key>
-					<string>flat</string>
-					<key>version</key>
-					<string>%version%</string>
-				</dict>
 			</dict>
 			<key>Processor</key>
-			<string>PkgCreator</string>
+			<string>AppPkgCreator</string>
 		</dict>
 	</array>
 </dict>

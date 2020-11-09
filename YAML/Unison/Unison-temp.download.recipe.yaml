@@ -1,0 +1,13 @@
+Description: Downloads the latest release of Unison.
+Identifier: com.github.grahampugh.recipes.download.unison-temp
+MinimumVersion: 1.0.0
+
+Input:
+  NAME: Unison
+
+Process:
+  - Processor: URLDownloader
+    Arguments:
+      url: "https://github.com/bcpierce00/unison/files/5511707/Unison-09393f26.ocaml-4.11.1.macos-10.15.app.zip"
+
+  - Processor: EndOfCheckPhase
